@@ -1,0 +1,21 @@
+{
+  "name": "দেশগড়ি — Deshgori",
+  "short_name": "দেশগড়ি",
+  "description": "Bangla-first pre-departure education for Bangladeshis going abroad. An independent educational project — not a government service.",
+  "lang": "bn",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF8F1",
+  "theme_color": "#149EAC",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

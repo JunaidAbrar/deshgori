@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-cream text-ink antialiased;
+    font-family: var(--font-bangla), 'Noto Sans Bengali', system-ui, sans-serif;
+  }
+  /* Big, comfortable tap targets on low-end shared phones. */
+  button,
+  a,
+  input {
+    touch-action: manipulation;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 3px solid theme('colors.teal.300');
+    outline-offset: 2px;
+  }
+}

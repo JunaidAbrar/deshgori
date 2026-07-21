@@ -1,0 +1,104 @@
+# Deshgori — audio recording manifest (Session B)
+# Auto-generated from /content/*.md by scratch_manifest.mjs. Do not hand-edit.
+# Path convention: public/audio/{module}/{cardId}.mp3 — mono, 32-48 kbps, 20-40s.
+# VOICE: default narrator, except IDs marked [FEMALE VOICE] (women's submodule).
+
+## W1 — টাকা দেওয়ার আগে যাচাই করুন  (8 clips)
+w1/w1-c1.mp3	[teach]
+w1/w1-c2.mp3	[teach]
+w1/w1-c3.mp3	[teach]
+w1/w1-q1.mp3	[quiz]
+w1/w1-c4.mp3	[teach]
+w1/w1-c5.mp3	[teach]
+w1/w1-c6.mp3	[teach]
+w1/w1-q2.mp3	[quiz]
+
+## W2 — আসল খরচ  (8 clips)
+w2/w2c01.mp3	[teach]
+w2/w2c02.mp3	[teach]
+w2/w2c03.mp3	[teach]
+w2/w2c04.mp3	[teach]
+w2/w2c05.mp3	[teach]
+w2/w2c06.mp3	[quiz]
+w2/w2c07.mp3	[quiz]
+w2/w2c08.mp3	[recap]
+
+## W3 — চুক্তি ও পাসপোর্ট  (8 clips)
+w3/w3c01.mp3	[teach]
+w3/w3c02.mp3	[teach]
+w3/w3c03.mp3	[teach]
+w3/w3c04.mp3	[teach]
+w3/w3c05.mp3	[teach]
+w3/w3c06.mp3	[quiz]
+w3/w3c07.mp3	[quiz]
+w3/w3c08.mp3	[recap]
+
+## W4 — মেডিকেল ও সরকারি ধাপ  (8 clips)
+w4/w4c01.mp3	[teach]
+w4/w4c02.mp3	[teach]
+w4/w4c03.mp3	[teach]
+w4/w4c04.mp3	[teach]
+w4/w4c05.mp3	[teach]
+w4/w4c06.mp3	[teach]
+w4/w4c07.mp3	[quiz]
+w4/w4c08.mp3	[quiz]
+
+## W5 — টাকা পাঠানো  (5 clips)
+w5/w5c01.mp3	[teach]
+w5/w5c02.mp3	[teach]
+w5/w5c03.mp3	[teach]
+w5/w5c04.mp3	[quiz]
+w5/w5c05.mp3	[recap]
+
+## W6 — বিপদে করণীয়  (11 clips)
+w6/w6c01.mp3	[teach]
+w6/w6c02.mp3	[teach]
+w6/w6c03.mp3	[teach]
+w6/w6c04.mp3	[teach]
+w6/w6c05.mp3	[teach]
+w6/w6c06.mp3	[quiz]
+w6/w6c07.mp3	[quiz]
+w6/w6w01.mp3	[teach]  [FEMALE VOICE]
+w6/w6w02.mp3	[teach]  [FEMALE VOICE]
+w6/w6w03.mp3	[teach]  [FEMALE VOICE]
+w6/w6w04.mp3	[recap]  [FEMALE VOICE]
+
+## যাত্রার দিন — যাত্রার দিন  (8 clips)
+jd/jdc01.mp3	[teach]
+jd/jdc02.mp3	[teach]
+jd/jdc03.mp3	[teach]
+jd/jdc04.mp3	[teach]
+jd/jdc05.mp3	[teach]
+jd/jdc06.mp3	[teach]
+jd/jdc07.mp3	[quiz]
+jd/jdc08.mp3	[recap]
+
+## S1 — অফার ও এজেন্ট যাচাই  (5 clips)
+s1/s1c01.mp3	[teach]
+s1/s1c02.mp3	[teach]
+s1/s1c03.mp3	[teach]
+s1/s1c04.mp3	[quiz]
+s1/s1c05.mp3	[recap]
+
+## S2 — টাকা ও পেমেন্ট  (5 clips)
+s2/s2c01.mp3	[teach]
+s2/s2c02.mp3	[teach]
+s2/s2c03.mp3	[teach]
+s2/s2c04.mp3	[quiz]
+s2/s2c05.mp3	[recap]
+
+## S3 — পৌঁছে প্রথম সপ্তাহ  (5 clips)
+s3/s3c01.mp3	[teach]
+s3/s3c02.mp3	[teach]
+s3/s3c03.mp3	[teach]
+s3/s3c04.mp3	[quiz]
+s3/s3c05.mp3	[recap]
+
+## T1 — ভিসা ও কাগজ যাচাই  (5 clips)
+t1/t1c01.mp3	[teach]
+t1/t1c02.mp3	[teach]
+t1/t1c03.mp3	[teach]
+t1/t1c04.mp3	[quiz]
+t1/t1c05.mp3	[recap]
+
+# TOTAL CLIPS: 76
