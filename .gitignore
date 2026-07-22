@@ -25,3 +25,6 @@ next-env.d.ts
 CLAUDE.md
 CLAUDE.local.md
 [0-9][0-9]-CLAUDE-*.md
+
+# local-only working folder — leave it alone, never commit
+Local/
