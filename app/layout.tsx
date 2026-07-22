@@ -13,13 +13,33 @@ const bangla = Noto_Sans_Bengali({
   variable: '--font-bangla',
 });
 
+const SITE_URL = 'https://deshgori.com';
+const TITLE = 'দেশগড়ি — বিদেশ যাত্রার আগে জেনে নিন';
+const DESCRIPTION =
+  'Deshgori: free, open-source, Bangla-first pre-departure education for Bangladeshis going abroad. An independent educational project — not a government service.';
+
 export const metadata: Metadata = {
-  title: 'দেশগড়ি — বিদেশ যাত্রার আগে জেনে নিন',
-  description:
-    'Deshgori: free, open-source, Bangla-first pre-departure education for Bangladeshis going abroad. An independent educational project — not a government service.',
+  // Absolute base so canonical/OG/manifest URLs resolve to the real domain.
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
   manifest: '/manifest.webmanifest',
   applicationName: 'Deshgori',
   appleWebApp: { capable: true, title: 'Deshgori', statusBarStyle: 'default' },
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'দেশগড়ি · Deshgori',
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    locale: 'bn_BD',
+  },
+  twitter: {
+    card: 'summary',
+    title: TITLE,
+    description: DESCRIPTION,
+  },
   icons: {
     icon: '/icons/icon.svg',
     apple: '/icons/icon.svg',
