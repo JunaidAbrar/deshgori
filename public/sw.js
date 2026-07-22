@@ -8,6 +8,7 @@ const CACHE = 'deshgori-v3';
 const SHELL = [
   '/',
   '/joruri/',
+  '/joruri/print/',
   '/track/worker/',
   '/track/worker/w1/',
   '/track/worker/w2/',

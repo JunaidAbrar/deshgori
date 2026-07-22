@@ -9,6 +9,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import QRCode from 'qrcode';
 
 const ROOT = process.cwd();
 const OUT = process.env.OUT_DIR || path.join(ROOT, 'out');
@@ -106,7 +107,8 @@ background:var(--soft);border-radius:14px;padding:12px 14px;text-align:center}
 @media(min-width:420px){.tile .lab{font-size:21px}}
 `;
 
-function layout({ title, description, canonical, body, bodyClass = '' }) {
+// Base document with a custom CSS block; used by the hub, print sheet and poster.
+function htmlDoc({ title, description, canonical, css, body, bodyClass = '' }) {
   return `<!doctype html>
 <html lang="bn">
 <head>
@@ -127,16 +129,24 @@ function layout({ title, description, canonical, body, bodyClass = '' }) {
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${SITE}/icons/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
-<style>${CSS}</style>
+<style>${css}</style>
 </head>
 <body class="${bodyClass}">
-<div class="wrap">
+${body}
+</body>
+</html>`;
+}
+
+// Hub layout: base doc + hub CSS + shared chrome (top wordmark, footer disclaimer).
+function layout({ title, description, canonical, body, bodyClass = '' }) {
+  return htmlDoc({
+    title, description, canonical, css: CSS, bodyClass,
+    body: `<div class="wrap">
 <div class="top"><span aria-hidden="true">🧭</span><a class="mark" href="/">দেশগড়ি</a></div>
 ${body}
 <footer>${esc(DISCLAIMER)}</footer>
-</div>
-</body>
-</html>`;
+</div>`,
+  });
 }
 
 // ---------- /joruri hub (T2) -------------------------------------------------
@@ -189,6 +199,119 @@ function renderHub() {
   });
 }
 
+// ---------- /joruri/print — B&W single-A4 fridge/mosque sheet (T3) -----------
+const byId = (id) => registry.links.find((l) => l.id === id);
+// Top-5 self-verify/complaint links for the printed sheet (URLs still come from
+// the registry via byId — no hardcoded government URL here).
+const PRINT_TOP5 = ['verify_agency', 'verify_saudi_visa', 'verify_bmet', 'verify_wafid', 'help_complain'];
+
+function renderPrint() {
+  const verified = toBnDate(registry._meta.verified_on);
+  const calls = registry.links.filter((l) => l.group === 'call');
+  const top5 = PRINT_TOP5.map(byId).filter(Boolean);
+
+  const css = `
+*{box-sizing:border-box}
+body{margin:0;background:#f4f4f4;color:#000;font-family:'Noto Sans Bengali','Hind Siliguri',system-ui,sans-serif;line-height:1.4}
+.sheet{max-width:190mm;margin:12px auto;background:#fff;border:2px solid #000;padding:10mm}
+h1{font-size:30px;margin:0 0 2px;text-align:center}
+.sub{text-align:center;font-size:15px;margin:0 0 10px}
+.rule{border:0;border-top:2px solid #000;margin:10px 0}
+.sec{font-size:17px;font-weight:800;margin:12px 0 6px;text-transform:none}
+.call{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed #000;padding:7px 0}
+.call .l{font-size:18px;font-weight:700}
+.call .l small{font-weight:400;font-size:13px}
+.call .n{font-size:26px;font-weight:900;letter-spacing:1px;white-space:nowrap}
+.lnk{padding:6px 0;border-bottom:1px dashed #000;font-size:16px}
+.lnk b{font-size:17px}
+.lnk .d{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700}
+.tip{margin-top:12px;font-size:16px;font-weight:700;text-align:center;border:2px solid #000;padding:8px;border-radius:6px}
+.foot{margin-top:10px;font-size:12px;text-align:center}
+.btn{display:block;width:100%;max-width:190mm;margin:10px auto;padding:12px;font-size:16px;font-weight:700;background:#000;color:#fff;border:0;border-radius:8px;cursor:pointer}
+@media print{@page{size:A4;margin:12mm}.no-print{display:none}body{background:#fff}.sheet{border:2px solid #000;margin:0;max-width:100%;padding:0}}
+`;
+
+  const callRows = calls.map((c) =>
+    `<div class="call"><span class="l">${esc(c.bn_label)} <small>${esc(c.bn_desc)}</small></span><span class="n">${esc(c.display)}</span></div>`,
+  ).join('\n');
+  const linkRows = top5.map((l, i) =>
+    `<div class="lnk"><b>${toBnDigits(i + 1)}. ${esc(l.bn_label)}</b> — <span class="d">${esc(l.display)}</span><br><small>${esc(l.bn_desc)}</small></div>`,
+  ).join('\n');
+
+  const body = `<button class="btn no-print" onclick="window.print()">🖨️ এই কাগজটি ছাপুন</button>
+<div class="sheet">
+<h1>দেশগড়ি — জরুরি নম্বর ও লিংক</h1>
+<p class="sub">বিদেশগামী প্রবাসীদের জন্য · শেষ যাচাই: ${verified}</p>
+<hr class="rule">
+<div class="sec">☎️ এখনই বিপদে? কল করুন</div>
+${callRows}
+<div class="sec">🔎 নিজে যাচাই করুন (সরকারি সাইট)</div>
+${linkRows}
+<p class="tip">মনে রাখুন — বাংলাদেশ সরকারি সাইট শেষ হয় <u>.gov.bd</u> দিয়ে।<br>টাকা চাইলেই বুঝবেন ভুয়া।</p>
+<p class="foot">${esc(DISCLAIMER)}<br>deshgori.com/joruri</p>
+</div>`;
+
+  return htmlDoc({
+    title: 'ছাপার কাগজ — জরুরি নম্বর ও লিংক · দেশগড়ি',
+    description: 'প্রবাসীদের জরুরি হটলাইন ও সরকারি যাচাই লিংকের ছাপযোগ্য এক পাতা — ফ্রিজে বা মসজিদে লাগানোর জন্য।',
+    canonical: `${SITE}/joruri/print/`,
+    css, body,
+  });
+}
+
+// ---------- /poster — A4 QR poster for mosques/tea-stalls (T3, §6) ------------
+async function renderPoster() {
+  const calls = registry.links.filter((l) => l.group === 'call');
+  const qrSvg = await QRCode.toString(`${SITE}/joruri/`, {
+    type: 'svg', margin: 1, errorCorrectionLevel: 'M',
+    color: { dark: '#124F5A', light: '#ffffff' },
+  });
+
+  const css = `
+*{box-sizing:border-box}
+body{margin:0;background:#eceae4;font-family:'Noto Sans Bengali','Hind Siliguri',system-ui,sans-serif;color:#124F5A}
+.poster{max-width:190mm;margin:12px auto;background:#FBF8F1;border:3px solid #0E7E8A;border-radius:18px;padding:14mm;text-align:center}
+.logo{width:96px;height:96px;margin:0 auto 6px}
+.name{font-size:44px;font-weight:900;color:#0E7E8A;margin:0}
+.tag{font-size:20px;margin:2px 0 14px;color:#124F5A}
+.calls{display:grid;gap:8px;margin:10px 0 16px}
+.c{display:flex;justify-content:space-between;align-items:center;background:#124F5A;color:#fff;border-radius:12px;padding:10px 16px}
+.c .l{font-size:18px;font-weight:700;text-align:left}
+.c .n{font-size:26px;font-weight:900}
+.qrbox{background:#fff;border:2px solid #0E7E8A;border-radius:14px;padding:10px;display:inline-block}
+.qrbox svg{width:180px;height:180px;display:block}
+.scan{font-size:22px;font-weight:800;margin:10px 0 2px}
+.url{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:18px;font-weight:700;color:#0E7E8A}
+.foot{margin-top:14px;font-size:12px;color:#5B6B75}
+.btn{display:block;width:100%;max-width:190mm;margin:10px auto;padding:12px;font-size:16px;font-weight:700;background:#0E7E8A;color:#fff;border:0;border-radius:8px;cursor:pointer}
+@media print{@page{size:A4;margin:10mm}.no-print{display:none}body{background:#fff}.poster{margin:0;max-width:100%}}
+`;
+
+  const callRows = calls.map((c) => {
+    const { href } = parseAction(c.action);
+    return `<div class="c"><span class="l">${esc(c.bn_label)}</span><span class="n">${esc(c.display)}</span></div>`;
+  }).join('\n');
+
+  const body = `<button class="btn no-print" onclick="window.print()">🖨️ পোস্টার ছাপুন (A4)</button>
+<div class="poster">
+<img class="logo" src="/icons/icon.svg" alt="দেশগড়ি" width="96" height="96">
+<h1 class="name">দেশগড়ি</h1>
+<p class="tag">বিদেশ যাওয়ার আগে জেনে নিন — বিনামূল্যে</p>
+<div class="calls">${callRows}</div>
+<div class="qrbox">${qrSvg}</div>
+<p class="scan">স্ক্যান করে সব জরুরি লিংক পান</p>
+<p class="url">deshgori.com/joruri</p>
+<p class="foot">${esc(DISCLAIMER)}</p>
+</div>`;
+
+  return htmlDoc({
+    title: 'পোস্টার — দেশগড়ি জরুরি লিংক (QR)',
+    description: 'মসজিদ, চায়ের দোকান বা ডেমো অফিসে লাগানোর জন্য দেশগড়ির QR পোস্টার — প্রবাসীদের জরুরি নম্বর ও সরকারি যাচাই লিংক।',
+    canonical: `${SITE}/poster/`,
+    css, body,
+  });
+}
+
 // ---------- SEO plumbing (basics now; expanded in T6) ------------------------
 function renderRobots() {
   return `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`;
@@ -217,15 +340,18 @@ ${registry.links.map((l) => `- ${l.bn_label}: ${l.display}`).join('\n')}
 }
 
 // ---------- main -------------------------------------------------------------
-function main() {
+async function main() {
   if (!fs.existsSync(OUT)) {
     console.error(`[gen-v2] OUT dir "${OUT}" missing — run \`next build\` first.`);
     process.exit(1);
   }
   const written = [];
   written.push(writeFile('joruri/index.html', renderHub()));
+  written.push(writeFile('joruri/print/index.html', renderPrint()));
+  written.push(writeFile('poster/index.html', await renderPoster()));
 
-  const routes = ['/', '/joruri/', '/jatra/', '/track/worker/', '/track/student/', '/track/tourist/'];
+  const routes = ['/', '/joruri/', '/joruri/print/', '/poster/', '/jatra/',
+    '/track/worker/', '/track/student/', '/track/tourist/'];
   written.push(writeFile('sitemap.xml', renderSitemap(routes)));
   written.push(writeFile('robots.txt', renderRobots()));
   written.push(writeFile('llms.txt', renderLlms()));
