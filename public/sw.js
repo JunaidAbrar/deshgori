@@ -2,11 +2,12 @@
    Goal (Hard Constraint 5): fully usable offline after the first visit, on
    low-end Android over 3G. No third-party requests. */
 
-const CACHE = 'deshgori-v2';
+const CACHE = 'deshgori-v3';
 
 // Known navigation routes (trailingSlash: true → each is a folder/index.html).
 const SHELL = [
   '/',
+  '/joruri/',
   '/track/worker/',
   '/track/worker/w1/',
   '/track/worker/w2/',

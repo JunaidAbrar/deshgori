@@ -22,9 +22,9 @@ yarn-error.log*
 next-env.d.ts
 *.tsbuildinfo
 # project brief / research / ops docs — kept local, never in the public repo
-CLAUDE.md
-CLAUDE.local.md
+CLAUDE*.md
 [0-9][0-9]-CLAUDE-*.md
 
-# local-only working folder — leave it alone, never commit
+# local-only working folders / reference material — never commit
 Local/
+links/

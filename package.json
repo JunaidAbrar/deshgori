@@ -6,7 +6,7 @@
   "description": "Deshgori (দেশগড়ি) — free, open-source, Bangla-first pre-departure education PWA for Bangladeshis going abroad.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/gen-v2.mjs",
     "serve": "npx serve out -l 3000"
   },
   "dependencies": {

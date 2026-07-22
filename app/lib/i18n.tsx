@@ -15,6 +15,8 @@ const STRINGS: Dict = {
   tagline: { bn: 'বিদেশ যাত্রার আগে জেনে নিন', en: 'Know before you go abroad' },
   free_open: { bn: 'বিনামূল্যে · ওপেন সোর্স', en: 'Free · open source' },
   start: { bn: 'শুরু করুন', en: 'Get started' },
+  joruri_home_title: { bn: 'জরুরি লিংক ও নম্বর', en: 'Emergency links & numbers' },
+  joruri_home_sub: { bn: 'হটলাইন ও সরকারি যাচাই — এক ট্যাপে', en: 'Hotlines & official checks — one tap' },
   next: { bn: 'পরবর্তী', en: 'Next' },
   back: { bn: 'পূর্ববর্তী', en: 'Back' },
   continue: { bn: 'চালিয়ে যান', en: 'Continue' },

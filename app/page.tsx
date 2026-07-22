@@ -38,7 +38,7 @@ export default function Home() {
             <div className="mb-6 text-7xl" aria-hidden>🧭</div>
             <h1 className="mb-2 text-4xl font-extrabold text-teal-700">{t('app_name')}</h1>
             <p className="mb-1 text-xl text-ink">{t('tagline')}</p>
-            <p className="mb-10 text-sm font-semibold uppercase tracking-wide text-muted">
+            <p className="mb-8 text-sm font-semibold uppercase tracking-wide text-muted">
               {t('free_open')}
             </p>
             <button
@@ -48,6 +48,20 @@ export default function Home() {
             >
               {t('start')} →
             </button>
+
+            {/* Emergency-links hub — one tap to /joruri, offline, gold-outlined.
+                Kept directly under শুরু করুন so it's above the fold on 360×640. */}
+            <a
+              href="/joruri/"
+              className="mt-4 flex items-center gap-3 rounded-3xl border-2 border-[#C8971B] bg-white px-5 py-4 text-left shadow-card active:scale-[0.99]"
+            >
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FDF3D6] text-2xl" aria-hidden>☎️</span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-bold text-[#8a6a12]">{t('joruri_home_title')}</span>
+                <span className="block text-sm text-muted">{t('joruri_home_sub')}</span>
+              </span>
+              <span aria-hidden className="text-xl font-bold text-[#C8971B]">→</span>
+            </a>
           </section>
         )}
 
